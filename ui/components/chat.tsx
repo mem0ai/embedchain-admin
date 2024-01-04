@@ -5,14 +5,8 @@ import * as React from "react";
 import { Send } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import axios from "axios";
@@ -29,17 +23,15 @@ export function ChatCard({ sessionId }: ChatCardProps) {
   const [messages, setMessages] = React.useState([
     {
       role: "agent",
-      content: "Hello! Start by adding data or asking questions.",
+      content:
+        "Hi, I am an AI Assistant. Start by adding data or asking questions.",
     },
   ]);
 
   const sendQuery = async (query: string, sessionId: string) => {
     try {
       const response = await axios.get(
-        "/api/v1/chat?query=" +
-          query +
-          "&session_id=" +
-          sessionId,
+        "/api/v1/chat?query=" + query + "&session_id=" + sessionId,
       );
       setMessages((prevMessages) => [
         ...prevMessages, // Spread the previous messages
@@ -65,7 +57,7 @@ export function ChatCard({ sessionId }: ChatCardProps) {
         ...prevMessages, // Spread the previous messages
         {
           role: "agent",
-          content: response?.data?.response,
+          content: response?.data?.message,
         },
       ]);
     } catch (error) {
@@ -94,18 +86,7 @@ export function ChatCard({ sessionId }: ChatCardProps) {
   return (
     <>
       <Card>
-        <CardHeader className="flex flex-row items-center">
-          <div className="flex items-center space-x-4">
-            <Avatar>
-              <AvatarImage src="/avatars/01.png" alt="Image" />
-              <AvatarFallback>EC</AvatarFallback>
-            </Avatar>
-            <div>
-              <p className="text-sm font-medium leading-none">Embedchain Bot</p>
-            </div>
-          </div>
-        </CardHeader>
-        <ScrollArea className="h-[60vh] max-h-[calc(100vh - 200px)]">
+        <ScrollArea className="mt-6 h-[60vh] max-h-[calc(100vh - 200px)]">
           <CardContent>
             <div className="space-y-4">
               {messages.map((message, index) => (

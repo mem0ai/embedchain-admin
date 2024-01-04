@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Embedchain chat",
   description:
-  "Embedchain is an Open Source RAG Framework that makes it easy to create and deploy AI apps",
+    "Embedchain is an Open Source RAG Framework that makes it easy to create and deploy AI apps",
 };
 
 export default function RootLayout({
@@ -19,15 +19,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-      <div className="fixed top-0 left-0 right-0 bg-white shadow-sm">
-        <div className="border-b">
-          <div className="flex h-16 items-center px-4">
-            <MainNav className="mx-6" />
+        <div className="fixed top-0 left-0 right-0 bg-white shadow-sm">
+          <div className="border-b">
+            <div className="flex h-16 items-center px-4">
+              <MainNav className="mx-6" />
+            </div>
           </div>
         </div>
-      </div>
-      <div>{children}</div>
-    </body>
+        <div>{children}</div>
+      </body>
     </html>
   );
 }

@@ -17,7 +17,12 @@ export function MainNav({
       {...props}
     >
       <Link href="/">
-        <Image src="https://app.embedchain.ai/logo.svg" alt="Logo" width={125} height={125} />
+        <Image
+          src="https://app.embedchain.ai/logo.svg"
+          alt="Logo"
+          width={125}
+          height={125}
+        />
       </Link>
       <Link
         href="/admin"
@@ -26,10 +31,11 @@ export function MainNav({
         Admin
       </Link>
       <Link
-        href="/chat"
+        href="https://github.com/embedchain/embedchain"
         className="text-sm font-light text-muted-foreground transition-colors hover:text-primary hover:text-black"
+        target="_blank"
       >
-        Chat UI
+        GitHub
       </Link>
       {/* <Link
         href="https://github.com/embedchain/embedchain"

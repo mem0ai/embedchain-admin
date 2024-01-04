@@ -9,7 +9,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 import Link from "next/link";
 
 export default function Page() {
@@ -38,7 +38,7 @@ export default function Page() {
           </div>
           <h3 className="text-sm text-muted-foreground">
             See list of collections/indices present in your vector store.
-            </h3>
+          </h3>
           <Separator className="my-4" />
           <Table>
             <TableHeader>
@@ -52,7 +52,13 @@ export default function Page() {
             <TableBody>
               {collections.map((collection) => (
                 <TableRow key={collection.id}>
-                  <TableCell className="font-sm underline underline-offset-2"><Link href={`/admin/chromadb/collections/${collection.name}`}>{collection.name}</Link></TableCell>
+                  <TableCell className="font-sm underline underline-offset-2">
+                    <Link
+                      href={`/admin/chromadb/collections/${collection.name}`}
+                    >
+                      {collection.name}
+                    </Link>
+                  </TableCell>
                   {/* <TableCell>{collection.name}</TableCell> */}
                   <TableCell>{collection?.tenant}</TableCell>
                   <TableCell>{collection?.database}</TableCell>
@@ -60,7 +66,7 @@ export default function Page() {
               ))}
             </TableBody>
           </Table>
-          </div>
+        </div>
       </div>
     </div>
   );
