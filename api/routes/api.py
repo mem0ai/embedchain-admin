@@ -4,44 +4,45 @@ from pydantic import BaseModel
 
 router = APIRouter()
 
-# Open source app config using Mixtral-8x7B-Instruct-v0.1 as LLM
+# App config using OpenAI gpt-3.5-turbo-1106 as LLM
 app_config = {
     "app": {
         "config": {
-            "name": "open-source-demo-app"
+            "id": "embedchain-demo-app",
         }
     },
     "llm": {
-        "provider": "huggingface",
+        "provider": "openai",
         "config": {
-            "model": "mistralai/Mixtral-8x7B-Instruct-v0.1",
-            "temperature": 0.1,
-            "max_tokens": 250,
-            "top_p": 0.1
-        }
-    },
-    "embedder": {
-        "provider": "huggingface",
-        "config": {
-            "model": "sentence-transformers/all-mpnet-base-v2"
+            "model": "gpt-3.5-turbo-1106",
         }
     }
 }
 
-# Uncomment the following lines to use the app config using OpenAI GPT-3.5-turbo-1106 as LLM
+# Uncomment this configuration to use Mistral as LLM
 # app_config = {
 #     "app": {
 #         "config": {
-#             "id": "embedchain-demo-app",
+#             "name": "embedchain-opensource-app"
 #         }
 #     },
 #     "llm": {
-#         "provider": "openai",
+#         "provider": "huggingface",
 #         "config": {
-#             "model": "gpt-3.5-turbo-1106",
+#             "model": "mistralai/Mixtral-8x7B-Instruct-v0.1",
+#             "temperature": 0.1,
+#             "max_tokens": 250,
+#             "top_p": 0.1
+#         }
+#     },
+#     "embedder": {
+#         "provider": "huggingface",
+#         "config": {
+#             "model": "sentence-transformers/all-mpnet-base-v2"
 #         }
 #     }
 # }
+
 
 ec_app = Pipeline.from_config(config=app_config)
 
