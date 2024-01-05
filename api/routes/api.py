@@ -4,19 +4,44 @@ from pydantic import BaseModel
 
 router = APIRouter()
 
+# Open source app config using Mixtral-8x7B-Instruct-v0.1 as LLM
 app_config = {
     "app": {
         "config": {
-            "id": "embedchain-demo-app",
+            "name": "open-source-demo-app"
         }
     },
     "llm": {
-        "provider": "openai",
+        "provider": "huggingface",
         "config": {
-            "model": "gpt-3.5-turbo-1106",
+            "model": "mistralai/Mixtral-8x7B-Instruct-v0.1",
+            "temperature": 0.1,
+            "max_tokens": 250,
+            "top_p": 0.1
+        }
+    },
+    "embedder": {
+        "provider": "huggingface",
+        "config": {
+            "model": "sentence-transformers/all-mpnet-base-v2"
         }
     }
 }
+
+# Uncomment the following lines to use the app config using OpenAI GPT-3.5-turbo-1106 as LLM
+# app_config = {
+#     "app": {
+#         "config": {
+#             "id": "embedchain-demo-app",
+#         }
+#     },
+#     "llm": {
+#         "provider": "openai",
+#         "config": {
+#             "model": "gpt-3.5-turbo-1106",
+#         }
+#     }
+# }
 
 ec_app = Pipeline.from_config(config=app_config)
 
@@ -43,17 +68,6 @@ async def add_source(source_model: SourceModel):
     except Exception as e:
         response = f"An error occurred: Error message: {str(e)}. Contact Embedchain founders on Slack: https://embedchain.com/slack or Discord: https://embedchain.com/discord"  # noqa:E501
         return {"message": response}
-
-
-@router.post("/api/v1/query")
-async def handle_query(question_model: QuestionModel):
-    """
-    Handles a query to the Embedchain app.
-    Expects a JSON with a "question" key.
-    """
-    question = question_model.question
-    answer = ec_app.query(question)
-    return {"answer": answer}
 
 
 @router.get("/api/v1/chat")
