@@ -1,8 +1,8 @@
 import uvicorn
-
-from fastapi import FastAPI
 from dotenv import load_dotenv
-from routes import api, admin
+from fastapi import FastAPI
+
+from routes import admin, api
 
 load_dotenv(".env")
 

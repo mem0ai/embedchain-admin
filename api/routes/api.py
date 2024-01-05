@@ -1,8 +1,6 @@
-from fastapi import responses, Query
-from pydantic import BaseModel
-
 from embedchain import Pipeline
-from fastapi import APIRouter
+from fastapi import APIRouter, Query, responses
+from pydantic import BaseModel
 
 router = APIRouter()
 
@@ -39,8 +37,12 @@ async def add_source(source_model: SourceModel):
     Expects a JSON with a "source" key.
     """
     source = source_model.source
-    ec_app.add(source)
-    return {"message": f"Source '{source}' added successfully."}
+    try:
+        ec_app.add(source)
+        return {"message": f"Source '{source}' added successfully."}
+    except Exception as e:
+        response = f"An error occurred: Error message: {str(e)}. Contact Embedchain founders on Slack: https://embedchain.com/slack or Discord: https://embedchain.com/discord"  # noqa:E501
+        return {"message": response}
 
 
 @router.post("/api/v1/query")
@@ -60,7 +62,10 @@ async def handle_chat(query: str, session_id: str = Query(None)):
     Handles a chat request to the Embedchain app.
     Accepts 'query' and 'session_id' as query parameters.
     """
-    response = ec_app.chat(query, session_id=session_id)
+    try:
+        response = ec_app.chat(query, session_id=session_id)
+    except Exception as e:
+        response = f"An error occurred: Error message: {str(e)}. Contact Embedchain founders on Slack: https://embedchain.com/slack or Discord: https://embedchain.com/discord"  # noqa:E501
     return {"response": response}
 
 

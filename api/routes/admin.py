@@ -1,6 +1,6 @@
-from fastapi import APIRouter
 import chromadb
 from chromadb.config import Settings
+from fastapi import APIRouter
 
 router = APIRouter()
 
@@ -16,7 +16,8 @@ client = chromadb.Client(chroma_settings)
 
 @router.get("/api/v1/admin/collections")
 async def get_all_collections():
-    # Currently only works for ChromaDB but can be extended easily for other vector stores
+    # Currently only works for ChromaDB but can be extended easily
+    # for other vector stores as well
     collections = client.list_collections()
     responses = [c.dict() for c in collections]
     return responses
