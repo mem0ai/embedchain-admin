@@ -160,7 +160,7 @@ export default function Page() {
                   <TableCell>{chat.session_id}</TableCell>
                   <TableCell>{chat.human}</TableCell>
                   <TableCell>{`${chat.ai.substring(0, 70)} ....`}{" "}</TableCell>
-                  <TableCell>{new Date(chat.timestamp).toUTCString()}</TableCell>
+                  <TableCell>{new Date(chat.timestamp).toLocaleString()}</TableCell>
                   {/* Drawer for detailed view of selected chat */}
                   <Drawer key={index}>
                     <DrawerTrigger asChild>
@@ -192,7 +192,7 @@ export default function Page() {
                               </tr>
                               <tr className="flex">
                                 <td className="text-muted-foreground">Timestamp:{" "}</td>
-                                <td>{new Date(chat.timestamp).toUTCString()}</td>
+                                <td>{new Date(chat.timestamp).toLocaleString()}</td>
                               </tr>
                             </tbody>
                           </table>
