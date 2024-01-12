@@ -1,6 +1,7 @@
 from embedchain import Pipeline
 from fastapi import APIRouter, Query, responses
 from pydantic import BaseModel
+from typing import Optional
 
 router = APIRouter()
 
@@ -83,6 +84,17 @@ async def handle_chat(query: str, session_id: str = Query(None)):
         response = f"An error occurred: Error message: {str(e)}. Contact Embedchain founders on Slack: https://embedchain.com/slack or Discord: https://embedchain.com/discord"  # noqa:E501
     return {"response": response}
 
+@router.get("/api/v1/chat_history")
+async def handle_chat_history():
+    """
+    Handles a chat history request to the Embedchain app.
+    """
+    try:
+        app_id = ec_app.config.id
+        response = ec_app.llm.memory.get(app_id=app_id, fetch_all=True, display_format=True)
+    except Exception as e:
+        response = f"An error occurred: Error message: {str(e)}. Contact Embedchain founders on Slack: https://embedchain.com/slack or Discord: https://embedchain.com/discord"
+    return {"response": response}
 
 @router.get("/")
 async def root():
