@@ -27,7 +27,7 @@ export default function Page() {
   const [collections, setCollections] = useState([]);
   const [currentCollectionsPage, setCurrentCollectionsPage] = useState(1);
   const [currentCollectionsRows, setCurrentCollectionsRows] = useState([]);
-  const collectionsRowsPerPage = 5;
+  const collectionsRowsPerPage = 10;
 
   useEffect(() => {
     fetch("/api/v1/admin/collections")
@@ -52,7 +52,7 @@ export default function Page() {
   const [chatHistory, setChatHistory] = useState([]);
   const [currentChatHistoryPage, setCurrentChatHistoryPage] = useState(1);
   const [currentChatRows, setCurrentChatRows] = useState([]);
-  const chatHistoyRowsPerPage = 10;
+  const chatHistoyRowsPerPage = 50;
 
   useEffect(() => {
     fetch("/api/v1/chat_history")

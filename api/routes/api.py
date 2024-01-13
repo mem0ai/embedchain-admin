@@ -27,7 +27,7 @@ app_config = {
 # app_config = {
 #     "app": {
 #         "config": {
-#             "name": "embedchain-opensource-app"
+#             "id": "embedchain-opensource-app"
 #         }
 #     },
 #     "llm": {
