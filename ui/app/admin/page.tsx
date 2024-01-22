@@ -21,6 +21,16 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationPrevious,
+  PaginationNext,
+  PaginationLink,
+} from "@/components/ui/pagination";
+
 import Link from "next/link";
 
 export default function Page() {
@@ -81,6 +91,84 @@ export default function Page() {
     setCurrentChatHistoryPage(pageNumber);
   };
 
+  const getPaginationContent = (currentPage, totalPages, paginationFunc) => {
+    const paginationContent = [];
+    
+    if (currentPage - 1 > 0) {
+      paginationContent.push(
+        <PaginationItem
+          key={-2}
+          onClick={() => paginationFunc(currentPage - 1)}
+        >
+          <PaginationPrevious />
+        </PaginationItem>
+      );
+    }
+
+    if (currentPage - 2 >= 1) {
+      paginationContent.push(
+        <PaginationItem
+          key={-1}
+        >
+          <PaginationEllipsis />
+        </PaginationItem>
+      );
+    }
+
+    if (currentPage - 1 > 0) {
+      paginationContent.push(
+        <PaginationItem
+          key={currentPage - 1}
+          onClick={() => paginationFunc(currentPage - 1)}
+        >
+          <PaginationLink>{currentPage - 1}</PaginationLink>
+        </PaginationItem>
+      );
+    }
+
+    paginationContent.push(
+      <PaginationItem
+        key={currentPage}
+        onClick={() => paginationFunc(currentPage)}
+      >
+        <PaginationLink isActive>{currentPage}</PaginationLink>
+      </PaginationItem>
+    );
+
+    if (currentPage + 1 <= totalPages) {
+      paginationContent.push(
+        <PaginationItem
+          key={currentPage + 1}
+          onClick={() => paginationFunc(currentPage + 1)}
+        >
+          <PaginationLink>{currentPage + 1}</PaginationLink>
+        </PaginationItem>
+      );
+    }
+
+    if (currentPage + 2 <= totalPages) {
+      paginationContent.push(
+        <PaginationItem
+          key={totalPages+1}
+        >
+          <PaginationEllipsis />
+        </PaginationItem>
+      );
+    }
+
+    if (currentPage + 1 <= totalPages) {
+      paginationContent.push(
+        <PaginationItem
+          key={totalPages+2}
+          onClick={() => paginationFunc(currentPage + 1)}
+        >
+          <PaginationNext />
+        </PaginationItem>
+      );
+    }
+    return paginationContent;
+  };
+
   return (
     <div className="mt-20 flex justify-center items-stretch">
       <div className="max-w-screen-lg w-full bg-background">
@@ -126,19 +214,15 @@ export default function Page() {
             </TableBody>
           </Table>
           {/* Pagination for Vector Store Collections Table */}
-          <div className="flex justify-center mt-4">
-            <nav>
-              <ul className="pagination">
-                {Array.from({ length: Math.ceil(collections.length / collectionsRowsPerPage) }, (_, i) => (
-                  <li key={i} className={`page-item ${currentCollectionsPage === i + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'} border border-gray-300 mx-1 rounded-tl-md rounded-tr-md rounded-bl-md rounded-br-md`}>
-                    <button className="page-link px-3 py-1" onClick={() => vectorStorePaginate(i + 1)}>
-                      <span className="text-sm">{i + 1}</span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </div>
+          <Pagination>
+            <PaginationContent>
+              {getPaginationContent(
+                currentCollectionsPage,
+                Math.ceil(collections.length / collectionsRowsPerPage),
+                vectorStorePaginate
+              )}
+            </PaginationContent>
+          </Pagination>
           <div className="mt-24"></div> {/* Empty div with margin for spacing */}
           {/* Chat History Table */}
           <h2 className="text-2xl font-semibold tracking-tight">
@@ -205,19 +289,15 @@ export default function Page() {
             </TableBody>
           </Table>
           {/* Pagination for Chat History Table */}
-          <div className="flex justify-center mt-4">
-            <nav>
-              <ul className="pagination flex">
-                {Array.from({ length: Math.ceil(chatHistory.length / chatHistoyRowsPerPage) }, (_, i) => (
-                  <li key={i} className={`page-item ${currentChatHistoryPage === i + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'} border border-gray-300 mx-1 rounded-tl-md rounded-tr-md rounded-bl-md rounded-br-md`}>
-                    <button className="page-link px-3 py-1" onClick={() => chatHistoryPaginate(i + 1)}>
-                      <span className="text-sm">{i + 1}</span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </div>
+          <Pagination>
+            <PaginationContent>
+              {getPaginationContent(
+                currentChatHistoryPage,
+                Math.ceil(chatHistory.length / chatHistoyRowsPerPage),
+                chatHistoryPaginate
+              )}
+            </PaginationContent>
+          </Pagination>
         </div>
       </div>
     </div>
