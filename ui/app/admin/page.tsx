@@ -12,15 +12,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogTitle,
+  DialogHeader,
+} from "@/components/ui/dialog";
 import {
   Pagination,
   PaginationContent,
@@ -245,45 +242,43 @@ export default function Page() {
                   <TableCell>{chat.human}</TableCell>
                   <TableCell>{`${chat.ai.substring(0, 70)} ....`}{" "}</TableCell>
                   <TableCell>{new Date(chat.timestamp).toLocaleString()}</TableCell>
-                  {/* Drawer for detailed view of selected chat */}
-                  <Drawer key={index}>
-                    <DrawerTrigger asChild>
+                  {/* Dialog for detailed view of selected chat */}
+                  <Dialog key={index}>
+                    <DialogTrigger asChild>
                       {/* Render a trigger cell in each row */}
                       <TableCell className="text-xs cursor-pointer">
                         <Maximize size={16} strokeWidth={0.5} absoluteStrokeWidth />
                       </TableCell>
-                    </DrawerTrigger>
-                    <DrawerContent>
+                    </DialogTrigger>
+                    <DialogContent className="flex max-w-fit max-h-fit overflow-auto">
                       <div className="w-full container">
-                        <DrawerHeader>
-                          <DrawerTitle>Chat Details</DrawerTitle>
-                        </DrawerHeader>
+                        <DialogHeader>
+                          <DialogTitle className="text-center">Chat Details</DialogTitle>
+                        </DialogHeader>
                         <div className="p-4 pb-8">
                           {/* Render detailed information about the selected chat */}
-                          <table className="w-full">
-                            <tbody>
-                              <tr className="flex">
-                                <td className="text-muted-foreground">Session Id:{" "}</td>
-                                <td>{chat.session_id}</td>
-                              </tr>
-                              <tr className="flex">
-                                <td className="text-muted-foreground">Question:{" "}</td>
-                                <td>{chat.human}</td>
-                              </tr>
-                              <tr className="flex">
-                                <td className="text-muted-foreground">Answer:{" "}</td>
-                                <td>{chat.ai}</td>
-                              </tr>
-                              <tr className="flex">
-                                <td className="text-muted-foreground">Timestamp:{" "}</td>
-                                <td>{new Date(chat.timestamp).toLocaleString()}</td>
-                              </tr>
-                            </tbody>
-                          </table>
+                          <div className="flex flex-col">
+                            <div className="flex mb-2">
+                              <span className="w-1/3 text-muted-foreground">Session Id:</span>
+                              <span className="w-2/3">{chat.session_id}</span>
+                            </div>
+                            <div className="flex mb-2">
+                              <span className="w-1/3 text-muted-foreground">Question:</span>
+                              <span className="w-2/3">{chat.human}</span>
+                            </div>
+                            <div className="flex mb-2">
+                              <span className="w-1/3 text-muted-foreground">Answer:</span>
+                              <span className="w-2/3">{chat.ai}</span>
+                            </div>
+                            <div className="flex mb-2">
+                              <span className="w-1/3 text-muted-foreground">Timestamp:</span>
+                              <span className="w-2/3">{new Date(chat.timestamp).toLocaleString()}</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </DrawerContent>
-                  </Drawer>
+                    </DialogContent>
+                  </Dialog>
                 </TableRow>
               ))}
             </TableBody>
