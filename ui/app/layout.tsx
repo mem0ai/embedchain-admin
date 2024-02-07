@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { MainNav } from "@/components/main-nav";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({
           <div className="border-b">
             <div className="flex h-16 items-center px-4">
               <MainNav className="mx-6" />
+              <Toaster />
             </div>
           </div>
         </div>

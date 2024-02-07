@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
 import axios from "axios";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -17,14 +16,12 @@ interface ChatCardProps {
 }
 
 export function ChatCard({ sessionId }: ChatCardProps) {
-  const [mode, setMode] = React.useState("query");
   const [loading, setLoading] = React.useState(false);
-  const [placeholder, setPlaceholder] = React.useState("Ask question");
+  const [placeholder, setPlaceholder] = React.useState("Ask a question...");
   const [messages, setMessages] = React.useState([
     {
       role: "agent",
-      content:
-        "Hi, I am an AI Assistant. Start by adding data or asking questions.",
+      content: `Hi, I am an AI Assistant. Start by adding data or asking questions.`,
     },
   ]);
 
@@ -66,21 +63,7 @@ export function ChatCard({ sessionId }: ChatCardProps) {
   };
 
   const sendChatMessage = async (query: string, sessionId: string) => {
-    if (mode === "add") {
-      await sendAddData(query, sessionId);
-    } else {
-      await sendQuery(query, sessionId);
-    }
-  };
-
-  const onModeChange = async () => {
-    if (mode === "add") {
-      setPlaceholder("Ask question");
-      setMode("query");
-    } else {
-      setPlaceholder("Add data (enter text or url)");
-      setMode("add");
-    }
+    await sendQuery(query, sessionId);
   };
 
   return (
@@ -125,14 +108,6 @@ export function ChatCard({ sessionId }: ChatCardProps) {
             }}
             className="flex w-full items-center space-x-2"
           >
-            <div className="flex-col flex items-center">
-              <div className="flex items-center">
-                <Switch onCheckedChange={onModeChange} />
-              </div>
-              <label className="text-[9px] mt-1 text-muted-foreground">
-                mode: {mode}
-              </label>
-            </div>
             <Input
               id="message"
               placeholder={placeholder}

@@ -1,32 +1,22 @@
-import chromadb
-from chromadb.config import Settings
 from fastapi import APIRouter
 
+from routes.api import EC_APP
+
 router = APIRouter()
-
-
-chroma_settings = Settings(
-    anonymized_telemetry=False,
-    persist_directory="db",
-    allow_reset=False,
-    is_persistent=True,
-)
-client = chromadb.Client(chroma_settings)
 
 
 @router.get("/api/v1/admin/collections")
 async def get_all_collections():
     # Currently only works for ChromaDB but can be extended easily
     # for other vector stores as well
-    collections = client.list_collections()
+    collections = EC_APP.db.client.list_collections()
     responses = [c.dict() for c in collections]
     return responses
 
 
-# TODO(deshraj): Add pagination and make this endpoint agnostic to the vector store
 @router.get("/api/v1/admin/collections/chromadb/{collection_name}")
 async def get_collection_details(collection_name: str):
-    collection = client.get_collection(collection_name)
+    collection = EC_APP.db.client.get_collection(collection_name)
     collection_data = collection.get()
     metadatas, documents = collection_data['metadatas'], collection_data['documents']
     collated_data = []
