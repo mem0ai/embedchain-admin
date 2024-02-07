@@ -1,11 +1,13 @@
 import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import Link from "next/link";
-import { PlusIcon, Pencil1Icon } from '@radix-ui/react-icons'
+import { PlusIcon, Pencil1Icon } from "@radix-ui/react-icons";
 
 interface Row {
   link: string;
   text: string;
+  addLink: string;
+  changeLink: string;
 }
 
 interface SectionProps {
@@ -28,12 +30,28 @@ const Section: React.FC<SectionProps> = ({ title, description, rows }) => (
             <TableCell className="flex-grow font-sm underline underline-offset-2 pl-0">
               <Link href={row.link}>{row.text}</Link>
             </TableCell>
-            <TableCell className="flex flex-row items-center justify-start">
-              <PlusIcon className="text-green-400 mr-1" />Add
-            </TableCell>
-            <TableCell className="flex flex-row items-center justify-start">
-              <Pencil1Icon className="text-yellow-500 mr-1" />Change
-            </TableCell>
+            {row.addLink && (
+              <TableCell>
+                <Link
+                  className="flex flex-row items-center justify-start"
+                  href={row.addLink}
+                >
+                  <PlusIcon className="text-green-400 mr-1" />
+                  Add
+                </Link>
+              </TableCell>
+            )}
+            {row.changeLink && (
+              <TableCell>
+                <Link
+                  className="flex flex-row items-center justify-start"
+                  href={row.changeLink}
+                >
+                  <Pencil1Icon className="text-yellow-500 mr-1" />
+                  Change
+                </Link>
+              </TableCell>
+            )}
           </TableRow>
         ))}
       </TableBody>
@@ -44,40 +62,68 @@ const Section: React.FC<SectionProps> = ({ title, description, rows }) => (
 export default function Page() {
   const sections = [
     {
-      title: 'Data',
-      description: 'List, add, and change data sources.',
-      rows: [{ link: '/admin/data', text: 'Data sources' }],
-    },
-    {
-      title: 'Vector store and embeddings',
-      description: 'List, add, and change embeddings.',
+      title: "Data",
+      description: "List, add, and change data sources.",
       rows: [
-        { link: '/admin/collections', text: 'Collections' },
-        { link: '/admin/embeddings', text: 'Embeddings' },
+        {
+          link: "/admin/data",
+          text: "Data sources",
+          addLink: "/admin/data/add",
+          changeLink: "/admin/data",
+        },
       ],
     },
     {
-      title: 'Users and chat history',
-      description: 'List, add, and change users and chat history.',
+      title: "Vector store and embeddings",
+      description:
+        "List, add, and change vector store collections and embeddings.",
       rows: [
-        { link: '/admin/users', text: 'Users' },
-        { link: '/admin/chat-history', text: 'Chat history' },
+        {
+          link: "/admin/collections",
+          text: "Collections",
+          addLink: "/admin/data/add",
+          changeLink: "/admin/collections",
+        },
       ],
     },
     {
-      title: 'UI settings',
-      description: 'Configure what is shown in the UI to end users',
+      title: "Chat history",
+      description: "Manage chat history.",
       rows: [
-        { link: '/admin/ui-settings', text: 'UI settings' },
+        // {
+        //   link: '/admin/users',
+        //   text: 'Users',
+        //   addLink: '/admin/users/add',
+        //   changeLink: '/admin/users',
+        // },
+        {
+          link: "/admin/chat-history",
+          text: "Chat history",
+          changeLink: "/admin/chat-history",
+        },
       ],
     },
+    // {
+    //   title: 'UI settings',
+    //   description: 'Configure what is shown in the UI to end users',
+    //   rows: [
+    //     {
+    //       link: '/admin/ui-settings',
+    //       text: 'UI settings',
+    //       addLink: '/admin/ui-settings/add',
+    //       changeLink: '/admin/ui-settings',
+    //     },
+    //   ],
+    // },
   ];
 
   return (
     <div className="mt-20 flex justify-center items-stretch">
       <div className="max-w-screen-lg w-full bg-background">
         <div className="md:p-4 flex flex-col">
-          <h1 className="text-4xl font-semibold tracking-tight">Manage your RAG Apps</h1>
+          <h1 className="text-4xl font-semibold tracking-tight">
+            Manage your RAG Apps
+          </h1>
         </div>
         {sections.map((section, index) => (
           <Section key={index} {...section} />

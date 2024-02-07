@@ -6,10 +6,7 @@ import { Separator } from "@/components/ui/separator";
 
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -18,22 +15,31 @@ import {
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import Link from "next/link";
 
+interface CollectionEntry {
+  metadata: {
+    app_id: string;
+    url: string;
+    data_type: string;
+    hash: string;
+  };
+  document: string;
+}
+
 export default function Page({
   params,
 }: {
   params: { collection_name: string };
 }) {
-  const [collectionData, setCollectionData] = useState([]);
-  console.log(params);
+  const [collectionData, setCollectionData] = useState<{
+    data: CollectionEntry[];
+  } | null>(null);
 
   useEffect(() => {
     fetch(`/api/v1/admin/collections/chromadb/${params.collection_name}`)
@@ -41,25 +47,27 @@ export default function Page({
       .then((data) => {
         setCollectionData(data);
       });
-  }, []);
+  }, [params.collection_name]);
 
   return (
-    <div className="mt-20 flex justify-center items-center">
+    <div className="mt-20 flex justify-center items-stretch">
       <div className="max-w-screen-lg w-full bg-background">
-        <div className="p-4 md:p-8 flex flex-col h-full">
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
+        <div className="md:p-4 flex flex-col">
+          <h2 className="text-2xl font-semibold tracking-tight">
+            Collection: {params.collection_name}
+          </h2>
+        </div>
+        <div className="md:p-4 flex flex-col">
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="text-xl tracking-tight">
               {" "}
-              <h2 className="text-2xl font-semibold tracking-tight">
-                Collection: {params.collection_name}
-              </h2>
-            </div>
+              List of document chunks present in collection:{" "}
+              <span className="bg-gray-100">
+                &apos;{params.collection_name}&apos;
+              </span>{" "}
+              in chromadb vector store.
+            </h3>
           </div>
-          <h3 className="text-sm text-muted-foreground">
-            List of document chunks present in your collection:{" "}
-            <span className="bg-gray-100">'{params.collection_name}'</span> in
-            chromadb vector store.
-          </h3>
           <Separator className="my-4" />
           <Table>
             <TableHeader>

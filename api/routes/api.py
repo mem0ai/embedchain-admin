@@ -1,13 +1,11 @@
-import queue
-
-from embedchain import Pipeline
+from embedchain import App
 from fastapi import APIRouter, Query, responses
 from pydantic import BaseModel
 
 router = APIRouter()
 
 # App config using OpenAI gpt-3.5-turbo-1106 as LLM
-app_config = {
+EC_APP_CONFIG = {
     "app": {
         "config": {
             "id": "embedchain-demo-app",
@@ -22,7 +20,7 @@ app_config = {
 }
 
 # Uncomment this configuration to use Mistral as LLM
-# app_config = {
+# EC_APP_CONFIG = {
 #     "app": {
 #         "config": {
 #             "name": "embedchain-opensource-app"
@@ -46,31 +44,12 @@ app_config = {
 # }
 
 
-ec_app = Pipeline.from_config(config=app_config)
-
-
-class SourceModel(BaseModel):
-    source: str
+EC_APP = App.from_config(config=EC_APP_CONFIG)
 
 
 class QuestionModel(BaseModel):
     question: str
     session_id: str
-
-
-@router.post("/api/v1/add")
-async def add_source(source_model: SourceModel):
-    """
-    Adds a new source to the Embedchain app.
-    Expects a JSON with a "source" key.
-    """
-    source = source_model.source
-    try:
-        ec_app.add(source)
-        return {"message": f"Source '{source}' added successfully."}
-    except Exception as e:
-        response = f"An error occurred: Error message: {str(e)}. Contact Embedchain founders on Slack: https://embedchain.com/slack or Discord: https://embedchain.com/discord"  # noqa:E501
-        return {"message": response}
 
 
 @router.get("/api/v1/chat")
@@ -80,7 +59,7 @@ async def handle_chat(query: str, session_id: str = Query(None)):
     Accepts 'query' and 'session_id' as query parameters.
     """
     try:
-        response = ec_app.chat(query, session_id=session_id)
+        response = EC_APP.chat(query, session_id=session_id)
     except Exception as e:
         response = f"An error occurred: Error message: {str(e)}. Contact Embedchain founders on Slack: https://embedchain.com/slack or Discord: https://embedchain.com/discord"  # noqa:E501
     return {"response": response}

@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { Separator } from "@/components/ui/separator";
 import { ChatCard } from "@/components/chat";
 import Link from "next/link";
+import { PlusIcon, Pencil1Icon } from "@radix-ui/react-icons";
+import { Button } from "@/components/ui/button";
 
 function generateSessionId() {
   return Date.now().toString();
@@ -29,19 +31,19 @@ export default function Page() {
               {" "}
               {/* Right-align heading and tooltip */}
               <h2 className="text-2xl font-semibold tracking-tight">
-                Chat with your documents
+                Chat with your data
               </h2>
             </div>
           </div>
-          <h3 className="text-sm text-muted-foreground">
-            Built using{" "}
+          <h3 className="flex text-sm text-muted-foreground">
+            Built using
             <Link
-              className="text-gray-900 underline underline-offset-2"
+              className="text-gray-900 underline underline-offset-2 px-1"
               href="https://github.com/embedchain/embedchain"
               target="_blank"
             >
               Embedchain
-            </Link>{" "}
+            </Link>
             ❤️
           </h3>
           <Separator className="my-4" />
