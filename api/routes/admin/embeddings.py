@@ -35,5 +35,5 @@ async def get_collection_details(collection_name: str):
             "metadata": i[0],
             "document": i[1]
         })
-    response = {"details": collection.dict(), "data": collated_data}
+    response = {"details": collection.model_dump(), "data": collated_data}
     return response

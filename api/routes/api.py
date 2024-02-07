@@ -1,3 +1,5 @@
+import queue
+
 from embedchain import Pipeline
 from fastapi import APIRouter, Query, responses
 from pydantic import BaseModel
