@@ -1,11 +1,13 @@
+from embedchain import App
 from fastapi import APIRouter, Response, status
 from pydantic import BaseModel
 
 from routes.admin.utils import (set_env_variables, unset_env_variables,
                                 validate_json)
-from routes.api import EC_APP
+from utils.embedchain import EC_APP_CONFIG
 
 router = APIRouter()
+ec_app = App.from_config(config=EC_APP_CONFIG)
 
 
 class DataSourceModel(BaseModel):
@@ -17,10 +19,10 @@ class DataSourceModel(BaseModel):
 
 @router.get("/api/v1/admin/data_sources")
 async def get_all_data_sources():
-    data_sources = EC_APP.get_data_sources()
+    data_sources = ec_app.get_data_sources()
     response = data_sources
     for i in response:
-        i.update({"app_id": EC_APP.config.id})
+        i.update({"app_id": ec_app.config.id})
     return response
 
 
@@ -46,7 +48,7 @@ async def add_data_source(data_source: DataSourceModel, response: Response):
 
     try:
         set_env_variables(env_variables)
-        EC_APP.add(**params)
+        ec_app.add(**params)
         unset_env_variables(env_variables)
         return {"message": f"Data of {data_type=} added successfully."}
     except Exception as e:

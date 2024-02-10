@@ -54,50 +54,156 @@ function AddDataSourceForm() {
   }
 
   const dataTypes = [
-    { value: "beehiiv", label: "Beehiiv", description: "A Beehiiv page." },
-    { value: "csv", label: "CSV", description: "A CSV file." },
-    { value: "docx", label: "DOCX", description: "A DOCX file." },
-    { value: "directory", label: "Directory", description: "A directory." },
-    { value: "discord", label: "Discord", description: "A Discord server." },
     {
-      value: "docs_site",
-      label: "Docs Site",
-      description: "A site with documentation.",
+      value: "pdf_file",
+      docsLink: "https://docs.embedchain.ai/components/data-sources/pdf_file",
+      label: "PDF File",
+      description: "/path/to/file.pdf",
     },
-    { value: "dropbox", label: "Dropbox", description: "A Dropbox file." },
-    { value: "gmail", label: "Gmail", description: "An email from Gmail." },
     {
-      value: "google_drive",
-      label: "Google Drive",
-      description: "A Google Drive file.",
+      value: "csv",
+      docsLink: "https://docs.embedchain.ai/components/data-sources/csv",
+      label: "CSV",
+      description: "/path/to/file.csv",
     },
-    { value: "image", label: "Image", description: "An image." },
-    { value: "json", label: "JSON", description: "A JSON file." },
-    { value: "mdx", label: "MDX", description: "An MDX file." },
-    { value: "notion", label: "Notion", description: "A Notion page." },
-    { value: "openapi", label: "OpenAPI", description: "An OpenAPI file." },
-    { value: "pdf_file", label: "PDF File", description: "A PDF file." },
-    { value: "rss_feed", label: "RSS Feed", description: "An RSS feed." },
-    { value: "sitemap", label: "Sitemap", description: "A sitemap." },
-    { value: "slack", label: "Slack", description: "A Slack channel." },
-    { value: "substack", label: "Substack", description: "A Substack page." },
-    { value: "text_file", label: "Text File", description: "A text file." },
+    {
+      value: "directory",
+      docsLink: "https://docs.embedchain.ai/components/data-sources/directory",
+      label: "Directory",
+      description: "/path/to/directory",
+    },
+    {
+      value: "text",
+      docsLink: "https://docs.embedchain.ai/components/data-sources/text-file",
+      label: "Text",
+      description: "String of text",
+    },
     {
       value: "unstructured",
+      docsLink:
+        "https://docs.embedchain.ai/components/data-sources/unstructured",
       label: "Unstructured",
-      description: "Unstructured data.",
+      description:
+        "Unstructured data. Uses unstructured.io loader to load data.",
     },
-    { value: "web_page", label: "Web Page", description: "A web page." },
-    { value: "xml", label: "XML", description: "An XML file." },
+    {
+      value: "web_page",
+      docsLink: "https://docs.embedchain.ai/components/data-sources/web_page",
+      label: "Web Page",
+      description: "https://www.forbes.com/profile/elon-musk",
+    },
+    {
+      value: "beehiiv",
+      docsLink: "https://docs.embedchain.ai/components/data-sources/beehiiv",
+      label: "Beehiiv",
+      description: "https://aibreakfast.beehiiv.com",
+    },
+    {
+      value: "docx",
+      docsLink: "https://docs.embedchain.ai/components/data-sources/docx",
+      label: "DOCX",
+      description: "https://example.com/content/intro.docx",
+    },
+    {
+      value: "discord",
+      docsLink: "https://docs.embedchain.ai/components/data-sources/discord",
+      label: "Discord",
+      description: "Discord channel id such as '1177296711023075338'",
+    },
+    {
+      value: "docs_site",
+      docsLink: "https://docs.embedchain.ai/components/data-sources/docs-site",
+      label: "Docs Site",
+      description: "https://docs.embedchain.ai/",
+    },
+    {
+      value: "dropbox",
+      docsLink: "https://docs.embedchain.ai/components/data-sources/dropbox",
+      label: "Dropbox",
+      description: "Dropbox file path such as '/path/to/file'",
+    },
+    {
+      value: "gmail",
+      docsLink: "https://docs.embedchain.ai/components/data-sources/gmail",
+      label: "Gmail",
+      description: "to: me label:inbox",
+    },
+    {
+      value: "google_drive",
+      docsLink:
+        "https://docs.embedchain.ai/components/data-sources/google-drive",
+      label: "Google Drive",
+      description: "https://drive.google.com/drive/u/0/folders/xxx-xxx",
+    },
+    {
+      value: "image",
+      docsLink: "https://docs.embedchain.ai/components/data-sources/image",
+      label: "Image",
+      description: "Path to image file such as '/path/to/image.png'",
+    },
+    {
+      value: "json",
+      docsLink: "https://docs.embedchain.ai/components/data-sources/json",
+      label: "JSON",
+      description: "JSON file path such as '/path/to/file.json'",
+    },
+    {
+      value: "mdx",
+      docsLink: "https://docs.embedchain.ai/components/data-sources/mdx",
+      label: "MDX",
+      description: "Path to MDX file such as '/path/to/file.mdx'",
+    },
+    {
+      value: "notion",
+      docsLink: "https://docs.embedchain.ai/components/data-sources/notion",
+      label: "Notion",
+      description:
+        "A Notion page link such as 'https://www.notion.so/my-page-cfbc134ca6464fc980d0391613959196'",
+    },
+    {
+      value: "openapi",
+      docsLink: "https://docs.embedchain.ai/components/data-sources/openapi",
+      label: "OpenAPI",
+      description:
+        "https://github.com/openai/openai-openapi/blob/master/openapi.yaml",
+    },
+    {
+      value: "sitemap",
+      docsLink: "https://docs.embedchain.ai/components/data-sources/sitemap",
+      label: "Sitemap",
+      description: "https://nextjs.org/sitemap.xml",
+    },
+    {
+      value: "slack",
+      docsLink: "https://docs.embedchain.ai/components/data-sources/slack",
+      label: "Slack",
+      description: "in:general",
+    },
+    {
+      value: "substack",
+      docsLink: "https://docs.embedchain.ai/components/data-sources/substack",
+      label: "Substack",
+      description: "https://www.lennysnewsletter.com",
+    },
+    {
+      value: "xml",
+      docsLink: "https://docs.embedchain.ai/components/data-sources/xml",
+      label: "XML",
+      description: "content/data.xml",
+    },
     {
       value: "youtube_channel",
+      docsLink:
+        "https://docs.embedchain.ai/components/data-sources/youtube-channel",
       label: "YouTube Channel",
-      description: "A YouTube channel.",
+      description: "@embedchain",
     },
     {
       value: "youtube_video",
+      docsLink:
+        "https://docs.embedchain.ai/components/data-sources/youtube_video",
       label: "YouTube Video",
-      description: "A video from YouTube.",
+      description: "https://www.youtube.com/watch?v=ea_XktsFU1Q",
     },
   ];
 
@@ -207,7 +313,7 @@ function AddDataSourceForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Save</Button>
       </form>
     </Form>
   );

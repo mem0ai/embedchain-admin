@@ -42,26 +42,6 @@ export function ChatCard({ sessionId }: ChatCardProps) {
     }
   };
 
-  const sendAddData = async (query: string, sessionId: string) => {
-    const payload = {
-      session_id: sessionId,
-      source: query,
-    };
-
-    try {
-      const response = await axios.post("/api/v1/add", payload);
-      setMessages((prevMessages) => [
-        ...prevMessages, // Spread the previous messages
-        {
-          role: "agent",
-          content: response?.data?.message,
-        },
-      ]);
-    } catch (error) {
-      console.log("Error getting response from bot. Please try again.");
-    }
-  };
-
   const sendChatMessage = async (query: string, sessionId: string) => {
     await sendQuery(query, sessionId);
   };
