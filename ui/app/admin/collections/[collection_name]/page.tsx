@@ -59,7 +59,7 @@ export default function Page({
         </div>
         <div className="md:p-4 flex flex-col">
           <div className="flex justify-between items-center mb-2">
-            <h3 className="text-xl tracking-tight">
+            <h3 className="text-sm tracking-tight">
               {" "}
               List of document chunks present in collection:{" "}
               <span className="bg-gray-100">

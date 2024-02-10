@@ -1,22 +1,24 @@
+from embedchain import App
 from fastapi import APIRouter
 
-from routes.api import EC_APP
+from utils.embedchain import EC_APP_CONFIG
 
 router = APIRouter()
+ec_app = App.from_config(config=EC_APP_CONFIG)
 
 
 @router.get("/api/v1/admin/collections")
 async def get_all_collections():
     # Currently only works for ChromaDB but can be extended easily
     # for other vector stores as well
-    collections = EC_APP.db.client.list_collections()
+    collections = ec_app.db.client.list_collections()
     responses = [c.dict() for c in collections]
     return responses
 
 
 @router.get("/api/v1/admin/collections/chromadb/{collection_name}")
 async def get_collection_details(collection_name: str):
-    collection = EC_APP.db.client.get_collection(collection_name)
+    collection = ec_app.db.client.get_collection(collection_name)
     collection_data = collection.get()
     metadatas, documents = collection_data['metadatas'], collection_data['documents']
     collated_data = []

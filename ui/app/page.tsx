@@ -1,41 +1,86 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Separator } from "@/components/ui/separator";
-import { ChatCard } from "@/components/chat";
+import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import Link from "next/link";
-import { PlusIcon, Pencil1Icon } from "@radix-ui/react-icons";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
+import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
-function generateSessionId() {
-  return Date.now().toString();
+const formSchema = z.object({
+  query: z.string().optional(),
+});
+
+function SearchForm() {
+  const router = useRouter(); // Use the useRouter hook
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      query: "",
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const query = values.query;
+    if (query) {
+      router.push(`/search?query=${query}`);
+    }
+  }
+
+  return (
+    <>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-2/3 space-y-6"
+        >
+          <div className="flex w-full space-x-2 items-center justify-center">
+            <FormField
+              control={form.control}
+              name="query"
+              render={({ field }) => (
+                <FormItem className="w-[400px]">
+                  <Input
+                    {...field}
+                    placeholder="Ask a question..."
+                    autoComplete="off"
+                    className="font-light text-lg h-12 w-full"
+                  />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button
+              className="h-12"
+              type="submit"
+              disabled={form.getValues().query === ""}
+            >
+              <MagnifyingGlassIcon className="w-8 h-8 text-muted-foreground text-white" />
+            </Button>
+          </div>
+        </form>
+      </Form>
+      <Button className="mt-4 h-6 bg-gray-500">
+        <Link href="/admin/data/add" target="_blank">
+          Add data sources
+        </Link>
+      </Button>
+    </>
+  );
 }
 
 export default function Page() {
-  const [sessionId, setSessionId] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!sessionId) {
-      // Generate a new session ID (you can use any method to generate an ID)
-      const newSessionId = generateSessionId(); // Replace this with your own logic
-      setSessionId(newSessionId);
-    }
-  }, [sessionId]);
-
   return (
-    <div className="mt-20 flex justify-center items-stretch">
-      <div className="max-w-screen-lg w-full bg-background">
-        <div className="p-4 md:p-8 flex flex-col">
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              {" "}
-              {/* Right-align heading and tooltip */}
-              <h2 className="text-2xl font-semibold tracking-tight">
-                Chat with your data
-              </h2>
-            </div>
-          </div>
-          <h3 className="flex text-sm text-muted-foreground">
+    <div className="flex justify-center items-center h-screen">
+      <div className="w-full max-w-screen-lg bg-background">
+        <div className="md:p-4 flex flex-col items-center justify-center space-y-2">
+          <h1 className="text-4xl font-medium tracking-tight">
+            Chat with your data
+          </h1>
+          <h3 className="font-light text-sm tracking-tight">
             Built using
             <Link
               className="text-gray-900 underline underline-offset-2 px-1"
@@ -44,12 +89,19 @@ export default function Page() {
             >
               Embedchain
             </Link>
-            ❤️
+            ❤️ Code available on{" "}
+            <Link
+              href="https://github.com/embedchain/embedchain-admin"
+              target="_blank"
+              className="underline underline-offset-2"
+            >
+              GitHub
+            </Link>
+            .
           </h3>
-          <Separator className="my-4" />
-          <div className="flex-1 overflow-y-auto max-h-fit">
-            {sessionId !== null && <ChatCard sessionId={sessionId} />}
-          </div>
+        </div>
+        <div className="flex flex-col items-center justify-center">
+          <SearchForm />
         </div>
       </div>
     </div>
