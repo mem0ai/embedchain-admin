@@ -46,7 +46,7 @@ export function AgentMessage({ message }: { message: ChatMessage }) {
         &nbsp;Sources
       </h3>
       <ol className="space-y-2">
-        {parsedSources.map((source, idx) => (
+        {parsedSources.map((source, idx) => source && (
           <li key={idx} className="text-gray-600 underline underline-offset-2">
             <Link href={JSON.parse(source).url}>{JSON.parse(source).url}</Link>
           </li>
